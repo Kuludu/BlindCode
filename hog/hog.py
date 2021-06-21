@@ -7,8 +7,8 @@ from skimage.feature import hog
 from sklearn.svm import SVC
 from sklearn.metrics import precision_score,recall_score
 
-TRAIN_COUNT = 500
-TEST_COUNT = 100
+TRAIN_COUNT = 50
+TEST_COUNT = 10
 
 def get_features(object_detect, count, test=False):
     if test:
