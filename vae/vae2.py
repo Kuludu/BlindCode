@@ -77,10 +77,9 @@ for epoch in range(num_epochs):
 
         x = x.view(-1, image_size)
         mu, log_var, reconst_mu = model(x)
-
         reconst_loss = F.binary_cross_entropy(reconst_mu, x, size_average=False)
-        
         kl_div = 0.5 * torch.sum(mu.pow(2) + log_var.exp() - log_var - 1)
+
         # print("kl_div 计算方式1：",kl_div)
         
         # pred = Normal(mu, torch.exp(log_var / 2))

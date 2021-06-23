@@ -7,16 +7,16 @@ from skimage.feature import hog
 from sklearn.svm import SVC
 from sklearn.metrics import precision_score,recall_score
 
-TRAIN_COUNT = 50
+TRAIN_COUNT = 10
 TEST_COUNT = 10
 
 def get_features(object_detect, count, test=False):
     if test:
         img_path = f"data/test_set/{object_detect}s/{object_detect}.%d.jpg"
-        start = 4001
+        start = 4011
     else:
         img_path = f"data/training_set/{object_detect}s/{object_detect}.%d.jpg"
-        start = 1
+        start = 100
 
 
     if object_detect == "cat":
@@ -55,6 +55,7 @@ dog, dog_labels = get_features(object_detect="dog", count=TRAIN_COUNT)
 img = np.vstack([cat, dog])
 labels = np.vstack([cat_labels, dog_labels])
 res = np.hstack([img, labels])
+np.random.shuffle(res)
 
 clf = SVC(probability=True)
 data = res[:, :-1]
@@ -79,5 +80,5 @@ pred = clf.predict(test_img)
 precision = precision_score(pred,test_labels)
 recall = recall_score(pred,test_labels)
 print("实际类别:",test_labels.flatten())
-print("预测类别:",pred.flatten())
+print("预测类别:",pred.flatten().astype(int))
 print(f"精准率:{precision}, 召回率:{recall}")
