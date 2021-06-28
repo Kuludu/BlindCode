@@ -6,16 +6,17 @@ import matplotlib.pyplot as plt
 from skimage.feature import hog
 from sklearn.svm import SVC
 from sklearn.metrics import precision_score,recall_score
+import pickle
 
-TRAIN_COUNT = 10
-TEST_COUNT = 10
+TRAIN_COUNT = 300
+TEST_COUNT = 50
 
 def get_features(object_detect, count, test=False):
     if test:
         img_path = f"data/test_set/{object_detect}s/{object_detect}.%d.jpg"
         start = 4011
     else:
-        img_path = f"data/training_set/{object_detect}s/{object_detect}.%d.jpg"
+        img_path = f"data/train_set/{object_detect}s/{object_detect}.%d.jpg"
         start = 100
 
 
@@ -82,3 +83,7 @@ recall = recall_score(pred,test_labels)
 print("实际类别:",test_labels.flatten())
 print("预测类别:",pred.flatten().astype(int))
 print(f"精准率:{precision}, 召回率:{recall}")
+
+
+with open("model/svm.pkl",'wb') as f:
+    pickle.dump(clf,f)
